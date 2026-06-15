@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Million Names</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 40px;
+}
+
+h1 {
+    font-size: 50px;
+}
+
+p {
+    color: #ccc;
+}
+
+.box {
+    background: #1e1e1e;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 25px;
+    border-radius: 15px;
+}
+
+input {
+    padding: 12px;
+    width: 70%;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    background: gold;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#counter {
+    margin-top: 20px;
+    font-size: 24px;
+    color: gold;
+}
+
+.names {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+}
+
+.name {
+    background: #222;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+</style>
+</head>
+
+<body>
+
+<h1>One Million Names</h1>
+<p>Become one of the first 1,000,000 names on the internet.</p>
+
+<div class="box">
+    <input id="nameInput" type="text" placeholder="Enter your name">
+    <button onclick="addName()">Add Name</button>
+
+    <div id="counter">0 / 1,000,000 names</div>
+</div>
+
+<div class="names" id="nameList"></div>
+
+<script>
+let names = JSON.parse(localStorage.getItem("names")) || [];
+
+function renderNames() {
+    const nameList = document.getElementById("nameList");
+    nameList.innerHTML = "";
+
+    names.forEach((name, index) => {
+        const div = document.createElement("div");
+        div.className = "name";
+        div.textContent = "#" + (index + 1) + " " + name;
+        nameList.appendChild(div);
+    });
+
+    document.getElementById("counter").textContent =
+        names.length.toLocaleString() + " / 1,000,000 names";
+}
+
+function addName() {
+    const input = document.getElementById("nameInput");
+    const name = input.value.trim();
+
+    if (!name) {
+        alert("Please enter a name.");
+        return;
+    }
+
+    names.push(name);
+
+    localStorage.setItem("names", JSON.stringify(names));
+
+    renderNames();
+
+    input.value = "";
+}
+
+renderNames();
+</script>
+
+</body>
+</html>
